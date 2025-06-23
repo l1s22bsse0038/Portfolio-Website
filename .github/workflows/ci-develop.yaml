@@ -1,5 +1,4 @@
-
-name : CI - Lint HTML & CSS
+name: CI - Lint HTML & CSS
 
 on:
   pull_request:
@@ -36,4 +35,4 @@ jobs:
             stylelint "styles/*.css" --config .stylelintrc.json
           else
             echo "No CSS files found. Skipping CSS lint."
-        
+          fi
