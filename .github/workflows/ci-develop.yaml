@@ -1,0 +1,39 @@
+
+name : CI - Lint HTML & CSS
+
+on:
+  pull_request:
+    branches: [develop]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install HTMLHint and Stylelint globally
+        run: |
+          npm install -g htmlhint stylelint stylelint-config-standard
+
+      - name: Lint HTML files
+        run: |
+          if ls src/*.html 1> /dev/null 2>&1; then
+            htmlhint "src/*.html" --config .htmlhintrc.json
+          else
+            echo "No HTML files found. Skipping HTML lint."
+          fi
+
+      - name: Lint CSS files
+        run: |
+          if ls styles/*.css 1> /dev/null 2>&1; then
+            stylelint "styles/*.css" --config .stylelintrc.json
+          else
+            echo "No CSS files found. Skipping CSS lint."
+        
